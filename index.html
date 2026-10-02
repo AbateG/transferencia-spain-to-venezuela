@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Auditoría de reportes: envío de fondos España a Venezuela</title>
+<meta name="description" content="Auditoría de dos reportes sobre cómo enviar euros de España a Venezuela: discrepancias, gráficos, calculadora y síntesis. Fecha de corte: 1 de octubre de 2026.">
+
+<style>
+/* ---------- Tokens ---------- */
+:root{
+  --ink:#0f172a;
+  --ink-2:#334155;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --bg:#f1f5f9;
+  --surface:#ffffff;
+  --navy:#0f172a;
+  --navy-2:#1e293b;
+  --blue:#1d4ed8;
+  --blue-soft:#dbeafe;
+  --green:#15803d;
+  --green-soft:#dcfce7;
+  --red:#b91c1c;
+  --red-soft:#fee2e2;
+  --amber:#b45309;
+  --amber-soft:#fef3c7;
+  --slate-soft:#e2e8f0;
+  --font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --r-card:14px;
+  --r-ctl:10px;
+  --wrap:1180px;
+}
+
+/* ---------- Base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font);font-size:1rem;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{line-height:1.2;margin:0;color:var(--ink);letter-spacing:-.01em}
+p{margin:0 0 .75rem}
+ul{margin:0;padding:0;list-style:none}
+a{color:var(--blue)}
+[hidden]{display:none !important}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:16px}
+.muted{color:var(--muted)}
+.icon{width:1.25em;height:1.25em;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:3px solid #2563eb;outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:var(--ink);padding:8px 12px;border-radius:8px;z-index:100}
+.skip:focus{left:8px}
+
+/* ---------- Hero ---------- */
+.hero{background:var(--navy);color:#e2e8f0;padding:40px 0 44px;border-bottom:4px solid var(--blue)}
+.hero h1{color:#fff;font-size:clamp(1.75rem,4.6vw,2.9rem);font-weight:750;max-width:24ch;letter-spacing:-.02em}
+.hero p.lede{margin:16px 0 0;max-width:62ch;font-size:1.05rem;color:#cbd5e1}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #334155;border-radius:999px;padding:4px 12px;font-size:.85rem;color:#cbd5e1;background:#111c33}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:600;font-size:.95rem;
+  padding:10px 18px;border-radius:var(--r-ctl);border:1px solid transparent;cursor:pointer;text-decoration:none;
+  transition:background-color .15s,border-color .15s;
+}
+.btn-primary{background:#fff;color:var(--navy)}
+.btn-primary:hover{background:#e2e8f0}
+.btn-ghost{background:transparent;color:#e2e8f0;border-color:#475569}
+.btn-ghost:hover{background:#1e293b}
+.btn-light{background:#fff;color:var(--ink-2);border-color:var(--line)}
+.btn-light:hover{background:#f8fafc;border-color:#cbd5e1}
+
+/* ---------- Nav ---------- */
+.toc{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+.toc ul{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+.toc ul::-webkit-scrollbar{display:none}
+.toc a{display:block;white-space:nowrap;padding:6px 12px;border-radius:8px;color:var(--ink-2);text-decoration:none;font-size:.9rem;font-weight:500}
+.toc a:hover{background:var(--slate-soft)}
+.toc a[aria-current="true"]{background:var(--navy);color:#fff}
+
+/* ---------- Sections ---------- */
+main{padding-bottom:32px}
+section{padding-top:40px}
+.sec-head{margin-bottom:18px}
+.sec-head h2{font-size:clamp(1.35rem,2.6vw,1.75rem);font-weight:700}
+.sec-head p{margin:6px 0 0;color:var(--muted);max-width:70ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:20px}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:10px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr}
+.g3{grid-template-columns:1fr}
+@media (min-width:760px){
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+}
+
+/* ---------- KPIs ---------- */
+.kpis{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:-22px;position:relative}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);padding:18px 18px 16px;box-shadow:0 1px 2px rgba(15,23,42,.05),0 8px 20px -12px rgba(15,23,42,.25)}
+.kpi-top{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.9rem;font-weight:500;line-height:1.3}
+.kpi-ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none}
+.kpi-ico.blue{background:var(--blue-soft);color:var(--blue)}
+.kpi-ico.green{background:var(--green-soft);color:var(--green)}
+.kpi-ico.amber{background:var(--amber-soft);color:var(--amber)}
+.kpi-ico.slate{background:var(--slate-soft);color:var(--ink-2)}
+.kpi-val{font-size:2rem;font-weight:750;margin:12px 0 4px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi-val.green{color:var(--green)}
+.kpi-val.amber{color:var(--amber)}
+.kpi-note{font-size:.88rem;color:var(--muted);margin:0}
+.delta{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:3px 10px;border-radius:999px;font-size:.8rem;font-weight:600}
+.delta.red{background:var(--red-soft);color:var(--red)}
+.delta.amber{background:var(--amber-soft);color:var(--amber)}
+.delta.green{background:var(--green-soft);color:var(--green)}
+
+/* ---------- Lists ---------- */
+.ticks li{position:relative;padding-left:28px;margin-bottom:12px}
+.ticks li:last-child{margin-bottom:0}
+.ticks .icon{position:absolute;left:0;top:.2em;width:1.1em;height:1.1em}
+.ticks.ok .icon{color:var(--green)}
+.ticks.bad .icon{color:var(--red)}
+.card.ok{border-top:3px solid var(--green)}
+.card.bad{border-top:3px solid var(--red)}
+.card.warn{border-top:3px solid var(--amber)}
+.card.info{border-top:3px solid var(--blue)}
+
+/* ---------- Badges ---------- */
+.badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.78rem;font-weight:650;line-height:1.5;white-space:nowrap}
+.badge.ok{background:var(--green-soft);color:var(--green)}
+.badge.bad{background:var(--red-soft);color:var(--red)}
+.badge.warn{background:var(--amber-soft);color:var(--amber)}
+.badge.mute{background:var(--slate-soft);color:var(--ink-2)}
+.badge.info{background:var(--blue-soft);color:var(--blue)}
+
+/* ---------- Controls ---------- */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.seg{display:inline-flex;background:var(--slate-soft);border-radius:var(--r-ctl);padding:3px}
+.seg button{font:inherit;font-weight:600;font-size:.92rem;border:0;background:transparent;color:var(--ink-2);padding:7px 18px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(15,23,42,.15)}
+.field-label{font-size:.9rem;font-weight:600;color:var(--ink-2)}
+.search{position:relative;flex:1 1 220px;max-width:340px}
+.search .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);width:1.05em;height:1.05em}
+input[type="search"],input[type="number"]{
+  font:inherit;width:100%;padding:9px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.search input{padding-left:36px}
+input:hover{border-color:#94a3b8}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:.85rem;font-weight:600;padding:6px 14px;border-radius:999px;border:1px solid #cbd5e1;background:#fff;color:var(--ink-2);cursor:pointer}
+.chips button:hover{background:#f8fafc}
+.chips button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* ---------- Charts ---------- */
+.chart-card h3{margin-bottom:2px}
+.chart-card .sub{font-size:.9rem;color:var(--muted);margin-bottom:14px}
+.chart-box{position:relative;height:340px}
+.chart-box canvas{max-width:100%}
+.chart-note{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.fallback{display:grid;place-items:center;height:100%;text-align:center;color:var(--muted);background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:16px;font-size:.92rem}
+.insight{margin-top:14px;padding:12px 14px;border-radius:10px;background:var(--blue-soft);color:#1e3a8a;font-size:.92rem}
+@media (min-width:980px){
+  .charts{grid-template-columns:1.1fr 1fr}
+  .chart-box{height:380px}
+}
+
+/* ---------- Tables ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-card);background:#fff}
+table{border-collapse:collapse;width:100%}
+caption{text-align:left;padding:0}
+th,td{text-align:left;vertical-align:top;padding:12px 14px;font-size:.92rem}
+thead th{background:var(--navy);color:#fff;font-weight:600;white-space:nowrap}
+tbody th{font-weight:700;background:#f8fafc}
+tbody tr{border-top:1px solid var(--line)}
+tbody tr:nth-child(even){background:#f8fafc}
+.zebra tbody tr.alt{background:#f8fafc}
+.zebra tbody tr:nth-child(even){background:transparent}
+.zebra tbody tr.alt:nth-child(even){background:#f8fafc}
+tbody tr:hover,.zebra tbody tr.alt:hover{background:#eff6ff}
+tbody tr.is-active{background:#eff6ff;box-shadow:inset 3px 0 0 var(--blue)}
+.dtable{min-width:880px}
+.dtable td .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.dtable td p{margin:0;color:var(--ink-2)}
+.dtable tbody th{width:15%}
+.pos{color:var(--green);font-weight:700}
+.neg{color:var(--red);font-weight:700}
+.count{font-size:.88rem;color:var(--muted);margin:10px 2px 0}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+@media screen and (max-width:767px){
+  .table-wrap{border:0;background:transparent;overflow:visible}
+  .dtable{min-width:0}
+  .dtable thead{position:absolute;left:-9999px}
+  .dtable,.dtable tbody,.dtable tr,.dtable th,.dtable td{display:block;width:100% !important}
+  .dtable tr,.zebra tbody tr.alt{background:#fff !important;border:1px solid var(--line);border-radius:12px;margin-bottom:12px;padding:6px 0}
+  .dtable tbody th{background:transparent;font-size:1rem;padding:8px 14px 2px}
+  .dtable td{padding:6px 14px}
+  .dtable td::before{content:attr(data-label);display:block;font-size:.76rem;font-weight:650;color:var(--muted);margin-bottom:1px}
+}
+
+/* ---------- Calculator ---------- */
+.calc{display:grid;gap:18px}
+@media (min-width:900px){.calc{grid-template-columns:1.1fr 1fr}}
+.fields{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.fields label{display:block;font-size:.85rem;font-weight:600;color:var(--ink-2);margin-bottom:4px}
+.fields small{display:block;color:var(--muted);font-size:.78rem;margin-top:3px;font-weight:400}
+.result{display:grid;gap:12px;align-content:start}
+.verdict{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:10px;font-weight:600}
+.verdict.ok{background:var(--green-soft);color:var(--green)}
+.verdict.bad{background:var(--red-soft);color:var(--red)}
+.verdict.neutral{background:var(--slate-soft);color:var(--ink-2)}
+.verdict.invalid{background:var(--amber-soft);color:var(--amber)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:12px}
+.stat .l{font-size:.8rem;color:var(--muted);font-weight:500}
+.stat .v{font-size:1.3rem;font-weight:750;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.stat .s{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.rows{border-top:1px solid var(--line)}
+.rows div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.rows dt,.rows .k{color:var(--muted)}
+.rows .val{font-weight:650;font-variant-numeric:tabular-nums;text-align:right}
+
+/* ---------- Definition grid and callout ---------- */
+.defs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.defs h3{font-size:.98rem;margin-bottom:6px}
+.defs p{margin:0;font-size:.93rem;color:var(--ink-2)}
+.callout{display:flex;gap:12px;align-items:flex-start;background:var(--navy);color:#e2e8f0;border-radius:var(--r-card);padding:18px 20px;margin-top:16px}
+.callout .icon{margin-top:.2em;color:#93c5fd}
+.callout strong{color:#fff}
+.split{display:grid;gap:16px;margin-top:16px}
+.legend{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:14px}
+.legend div{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--ink-2)}
+.legend .badge{margin-top:1px}
+.pros li,.cons li{position:relative;padding-left:26px;margin-bottom:9px;font-size:.95rem}
+.pros .icon,.cons .icon{position:absolute;left:0;top:.28em;width:1em;height:1em}
+.pros .icon{color:var(--green)}
+.cons .icon{color:var(--red)}
+.card h4{font-size:.9rem;font-weight:700;margin:14px 0 8px;color:var(--ink-2)}
+.card h4:first-of-type{margin-top:0}
+
+/* ---------- Footer ---------- */
+footer{background:var(--navy);color:#94a3b8;margin-top:40px;padding:26px 0;font-size:.88rem}
+footer p{margin:0 0 6px;max-width:90ch}
+footer strong{color:#e2e8f0}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none !important;animation:none !important}
+}
+
+/* ---------- Print ---------- */
+@page{size:A4;margin:14mm}
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff;font-size:10.5pt}
+  .no-print,.toc,.skip,.toolbar,.count,#calculadora{display:none !important}
+  .hero{background:#fff !important;color:var(--ink);padding:0 0 12px;border-bottom:2px solid var(--navy)}
+  .hero h1{color:var(--ink);font-size:22pt}
+  .hero p.lede{color:var(--ink-2)}
+  .chip{background:#fff;color:var(--ink-2);border-color:#94a3b8}
+  section{padding-top:16px}
+  .kpis{margin-top:14px}
+  .kpi,.card,.table-wrap tr,.chart-card{break-inside:avoid;box-shadow:none}
+  .sec-head{break-after:avoid}
+  .chart-box{height:300px}
+  .table-wrap{overflow:visible;border:1px solid #94a3b8}
+  .dtable{min-width:0;font-size:8.5pt}
+  .dtable tr[hidden]{display:table-row !important}
+  th,td{padding:6px 8px;font-size:8.5pt}
+  .callout{background:#fff;color:var(--ink);border:1px solid var(--navy)}
+  .callout strong{color:var(--ink)}
+  .callout .icon{color:var(--navy)}
+  footer{background:#fff;color:var(--muted);margin-top:16px;padding:10px 0;border-top:1px solid #94a3b8}
+  footer strong{color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+</head>
+
+<body>
+<!-- Icon sprite (Lucide-style, inline so the page needs no icon CDN) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+  <symbol id="i-percent" viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+  <symbol id="i-files" viewBox="0 0 24 24"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z"/><path d="M3 7.6v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8"/><path d="M15 2v5h5"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01M16 14v4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+</svg>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>La ventaja de la ruta cripto es de 0,2 a 1,8 %, no de 2,7 %</h1>
+    <p class="lede">Auditoría de dos reportes sobre cómo enviar euros de España a Venezuela. Contrastamos sus cifras con fuentes oficiales, corregimos lo que no cuadra y dejamos una calculadora para usar tus propias cotizaciones.</p>
+    <div class="hero-meta">
+      <span class="chip"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>Fecha de corte: 1 de octubre de 2026</span>
+      <span class="chip"><svg class="icon" aria-hidden="true"><use href="#i-files"/></svg>2 fuentes independientes</span>
+      <span class="chip"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>12 puntos contrastados</span>
+    </div>
+    <div class="hero-actions no-print">
+      <button type="button" class="btn btn-primary" id="btn-print"><svg class="icon" aria-hidden="true"><use href="#i-printer"/></svg>Imprimir o guardar como PDF</button>
+      <a class="btn btn-ghost" href="#calculadora"><svg class="icon" aria-hidden="true"><use href="#i-calc"/></svg>Ir a la calculadora</a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc no-print" aria-label="Secciones del informe">
+  <div class="wrap">
+    <ul>
+      <li><a href="#resumen">Resumen</a></li>
+      <li><a href="#graficos">Gráficos</a></li>
+      <li><a href="#calculadora">Calculadora</a></li>
+      <li><a href="#discrepancias">Discrepancias</a></li>
+      <li><a href="#rigor">Rigor</a></li>
+      <li><a href="#calidad">Control de calidad</a></li>
+      <li><a href="#sintesis">Síntesis</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="contenido">
+  <div class="wrap">
+
+    <!-- KPIs -->
+    <div class="kpis" role="list" aria-label="Indicadores clave">
+      <article class="kpi" role="listitem">
+        <div class="kpi-top"><span class="kpi-ico blue"><svg class="icon" aria-hidden="true"><use href="#i-percent"/></svg></span>Brecha entre el dólar oficial y el P2P</div>
+        <p class="kpi-val">≈ 11–13 %</p>
+        <p class="kpi-note">Dólar oficial a 857–860 Bs frente a 949–965 Bs en P2P.</p>
+      </article>
+      <article class="kpi" role="listitem">
+        <div class="kpi-top"><span class="kpi-ico slate"><svg class="icon" aria-hidden="true"><use href="#i-files"/></svg></span>Fuentes independientes</div>
+        <p class="kpi-val">2</p>
+        <p class="kpi-note">Llegaron tres textos, pero el reporte B está duplicado.</p>
+      </article>
+      <article class="kpi" role="listitem">
+        <div class="kpi-top"><span class="kpi-ico green"><svg class="icon" aria-hidden="true"><use href="#i-trend"/></svg></span>Ventaja cripto frente a la promo de Remitly, corregida</div>
+        <p class="kpi-val green">+0,2 a +1,8 %</p>
+        <span class="delta red"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>El reporte A decía +2,7 a +2,9 %</span>
+      </article>
+      <article class="kpi" role="listitem">
+        <div class="kpi-top"><span class="kpi-ico amber"><svg class="icon" aria-hidden="true"><use href="#i-trend"/></svg></span>Ventaja cripto frente a un envío sin promo</div>
+        <p class="kpi-val amber">≈ 7–8 %</p>
+        <span class="delta amber"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>Estimación inferida, no publicada</span>
+      </article>
+    </div>
+
+    <!-- Resumen -->
+    <section id="resumen" aria-labelledby="h-resumen">
+      <div class="sec-head">
+        <h2 id="h-resumen">Resumen ejecutivo</h2>
+        <p>Qué sostienen ambos reportes y qué no resiste la verificación.</p>
+      </div>
+      <div class="grid g2">
+        <article class="card ok">
+          <h3>Respaldado por ambos reportes y verificado</h3>
+          <ul class="ticks ok">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Rendimiento frente a simplicidad.</strong> La remesa fintech es más simple y la ruta stablecoin con P2P rinde más a mayor monto. La brecha entre el dólar oficial y el paralelo es de ≈ 11–13 %.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Primer envío gratis.</strong> Remitly aplica un tipo promocional a los primeros 1.000 € y su comisión estándar para EUR→VES es de 0,99 €. Ria también ofrece 0 € de comisión en el primer envío desde España.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg><span><strong>KYC y prudencia.</strong> Ambos piden DNI/NIE y selfie en origen, cédula en destino, cotizar en vivo y probar con un monto pequeño.</span></li>
+          </ul>
+        </article>
+        <article class="card bad">
+          <h3>Hallazgos que no sobreviven a la auditoría</h3>
+          <ul class="ticks bad">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg><span><strong>Reporte B, flujo cripto.</strong> Comprar USDT en un exchange de la UE es inviable.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg><span><strong>Reporte A, ventaja cripto.</strong> La ventaja de 2,7–2,9 % está sobrestimada porque omite el spread P2P. Corregida queda en ≈ 0,2–1,8 % frente a la promo de Remitly.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg><span><strong>Reporte B, ruta ganadora a 100 €.</strong> Su conclusión no tiene base numérica, porque da el mismo rango de costes a las rutas 1 y 2.</span></li>
+          </ul>
+        </article>
+      </div>
+      <article class="card info" style="margin-top:16px">
+        <h3>Estado de las fuentes</h3>
+        <p><strong>Reporte A</strong> es el primer texto (OKX, Remitly y Retorna). <strong>Reporte B</strong> son los otros dos textos, idénticos entre sí. Ninguno incluye enlaces, así que cada dato se contrastó por separado.</p>
+      </article>
+    </section>
+
+    <!-- Gráficos -->
+    <section id="graficos" aria-labelledby="h-graficos">
+      <div class="sec-head">
+        <h2 id="h-graficos">Qué recibe el destinatario</h2>
+        <p>La métrica que el análisis recomienda comparar es «bolívares netos por euro pagado». Elige un monto para ver ambos gráficos.</p>
+      </div>
+      <div class="toolbar no-print">
+        <span class="field-label" id="lbl-monto">Monto a enviar</span>
+        <div class="seg" role="group" aria-labelledby="lbl-monto">
+          <button type="button" data-amt="100" aria-pressed="true">100 €</button>
+          <button type="button" data-amt="500" aria-pressed="false">500 €</button>
+        </div>
+      </div>
+
+      <div class="grid charts">
+        <article class="card chart-card">
+          <h3>Bolívares netos por cada euro pagado</h3>
+          <p class="sub">Comparación de rutas con los datos del reporte A. La barra azul oscura es el rango corregido.</p>
+          <div class="chart-box"><canvas id="chart-ves" role="img" aria-label="Gráfico de barras horizontales: bolívares netos por euro pagado según cada ruta"></canvas></div>
+          <p class="chart-note">El eje empieza en 900 Bs/€ para distinguir las barras. «Remitly sin promo» es una estimación inferida del código de la promoción.</p>
+        </article>
+        <article class="card chart-card">
+          <h3>Cuánto gana la ruta cripto a la promo de Remitly</h3>
+          <p class="sub">Ventaja en %, según el spread P2P más la comisión bancaria y la tarifa fija de retirada del exchange.</p>
+          <div class="chart-box"><canvas id="chart-sens" role="img" aria-label="Gráfico de líneas: ventaja de la ruta cripto frente a Remitly según el spread P2P y la tarifa de retirada"></canvas></div>
+          <p class="chart-note">Por encima de la línea oscura (0 %) gana la ruta cripto; por debajo, gana Remitly. El punto de la izquierda (0 %) es el reporte A tal cual.</p>
+        </article>
+      </div>
+      <p class="insight" id="insight" role="status"></p>
+      <noscript><p class="insight">Activa JavaScript para ver los gráficos. Los datos están en la tabla de resultados.</p></noscript>
+
+      <h3 style="margin:22px 0 10px;font-size:1.05rem">Resultado recalculado con los datos de A</h3>
+      <div class="table-wrap">
+        <table class="results">
+          <caption class="sr-only" style="position:absolute;left:-9999px">Bolívares recibidos por la ruta cripto corregida y por la promo de Remitly</caption>
+          <thead><tr><th scope="col">Envío</th><th scope="col">Cripto corregida (VES)</th><th scope="col">Remitly promo (VES)</th><th scope="col">Ventaja cripto</th><th scope="col">En euros</th></tr></thead>
+          <tbody>
+            <tr data-amt="100"><th scope="row">100 €</th><td class="num">105.055–106.604</td><td class="num">104.841</td><td class="pos num">+0,2 a +1,7 %</td><td class="num">≈ 0,2–1,7 €</td></tr>
+            <tr data-amt="500"><th scope="row">500 €</th><td class="num">529.029–533.815</td><td class="num">524.205</td><td class="pos num">+0,9 a +1,8 %</td><td class="num">≈ 4,6–9,2 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="chart-note">Contra Remitly <strong>sin promo</strong>, la estimación previa daba un tipo ≈ 991 Bs/€ (inferido del código de la promo) y una ventaja cripto de ≈ 7–8 %. Es una inferencia, no un dato publicado.</p>
+    </section>
+
+    <!-- Calculadora -->
+    <section id="calculadora" aria-labelledby="h-calc">
+      <div class="sec-head">
+        <h2 id="h-calc">Calculadora con tus cotizaciones</h2>
+        <p>Los valores iniciales son los del escenario corregido. Cámbialos por las cifras que veas en pantalla antes de enviar.</p>
+      </div>
+      <div class="card">
+        <div class="calc">
+          <form class="fields" id="calc-form" onsubmit="return false" aria-label="Datos de la calculadora">
+            <div><label for="c-amt">Importe a pagar (€)</label><input id="c-amt" type="number" inputmode="decimal" min="0" step="any" value="500"></div>
+            <div><label for="c-fx">EUR/USD</label><input id="c-fx" type="number" inputmode="decimal" min="0" step="any" value="1.1298"></div>
+            <div><label for="c-p2p">USDT o USDC en VES (P2P)</label><input id="c-p2p" type="number" inputmode="decimal" min="0" step="any" value="955.35"><small>Referencia, sin spread.</small></div>
+            <div><label for="c-buy">Comisión de compra (%)</label><input id="c-buy" type="number" inputmode="decimal" min="0" step="any" value="0.05"><small>OKX stablecoins: 0,05 %.</small></div>
+            <div><label for="c-wd">Retirada del exchange (USDC)</label><input id="c-wd" type="number" inputmode="decimal" min="0" step="any" value="1"><small>A usó 0,21; un agregador indica 1–5.</small></div>
+            <div><label for="c-spr">Spread P2P + banco (%)</label><input id="c-spr" type="number" inputmode="decimal" min="0" step="any" value="1.75"><small>Estimación propia: 1–1,75 %.</small></div>
+            <div><label for="c-rem">Tipo de Remitly (VES por €)</label><input id="c-rem" type="number" inputmode="decimal" min="0" step="any" value="1048.41"></div>
+            <div><label for="c-remfee">Comisión de Remitly (€)</label><input id="c-remfee" type="number" inputmode="decimal" min="0" step="any" value="0"><small>0 € en el primer envío.</small></div>
+            <div style="grid-column:1/-1"><button type="button" class="btn btn-light" id="calc-reset"><svg class="icon" aria-hidden="true"><use href="#i-rotate"/></svg>Restablecer valores</button></div>
+          </form>
+
+          <div class="result" id="calc-out" role="status" aria-live="polite">
+            <div class="verdict neutral" id="calc-verdict"></div>
+            <div class="pair">
+              <div class="stat"><div class="l">Ruta cripto</div><div class="v" id="o-ves-c">-</div><div class="s" id="o-per-c">-</div></div>
+              <div class="stat"><div class="l">Remitly</div><div class="v" id="o-ves-r">-</div><div class="s" id="o-per-r">-</div></div>
+            </div>
+            <div class="rows">
+              <div><span class="k">USDC netos tras compra y retirada</span><span class="val" id="o-usdc">-</span></div>
+              <div><span class="k">Diferencia a favor de la ruta cripto</span><span class="val" id="o-diff">-</span></div>
+              <div><span class="k">Equivale a</span><span class="val" id="o-eur">-</span></div>
+              <div><span class="k">P2P mínimo para igualar a Remitly</span><span class="val" id="o-be">-</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Discrepancias -->
+    <section id="discrepancias" aria-labelledby="h-disc">
+      <div class="sec-head">
+        <h2 id="h-disc">Tabla de discrepancias</h2>
+        <p>Cada fila contrasta lo que afirma cada reporte con la evidencia disponible.</p>
+      </div>
+
+      <div class="legend" aria-label="Leyenda de verificación">
+        <div><span class="badge ok">Verificado</span><span>Corroborado en una fuente primaria u oficial.</span></div>
+        <div><span class="badge warn">Plausible</span><span>Solo respaldado por una fuente secundaria.</span></div>
+        <div><span class="badge bad">Contradicho</span><span>La evidencia disponible lo desmiente.</span></div>
+        <div><span class="badge mute">Sin verificar</span><span>No se pudo corroborar de forma independiente.</span></div>
+      </div>
+
+      <div class="toolbar no-print">
+        <div class="chips" role="group" aria-label="Filtrar por veredicto">
+          <button type="button" data-tag="todos" aria-pressed="true">Todos</button>
+          <button type="button" data-tag="verificado" aria-pressed="false">Verificado</button>
+          <button type="button" data-tag="plausible" aria-pressed="false">Plausible</button>
+          <button type="button" data-tag="contradicho" aria-pressed="false">Contradicho</button>
+          <button type="button" data-tag="sinverificar" aria-pressed="false">Sin verificar</button>
+        </div>
+        <div class="search">
+          <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+          <input type="search" id="q" placeholder="Buscar en la tabla" aria-label="Buscar en la tabla de discrepancias" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="dtable zebra" id="dtable">
+          <caption style="position:absolute;left:-9999px">Discrepancias entre el reporte A y el reporte B con su evaluación</caption>
+          <colgroup><col style="width:15%"><col style="width:20%"><col style="width:20%"><col style="width:45%"></colgroup>
+          <thead><tr><th scope="col">Punto de conflicto</th><th scope="col">Versión reporte A</th><th scope="col">Versión reporte B</th><th scope="col">Evaluación objetiva</th></tr></thead>
+          <tbody>
+            <tr data-tags="verificado contradicho">
+              <th scope="row" data-label="Punto de conflicto">Stablecoin del tramo UE</th>
+              <td data-label="Versión reporte A">USDC</td>
+              <td data-label="Versión reporte B">USDT o USDC, red TRC-20 vía Bit2Me</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge ok">A correcto</span><span class="badge bad">B contradicho</span></div><p>Kraken solo permite depositar o retirar USDT en el EEE, no operarlo. Bit2Me dejó de vender USDT en España y mantiene USDC. TRC-20 es la red típica del USDT; no se verificó USDC en Tron en esos exchanges.</p></td>
+            </tr>
+            <tr data-tags="verificado plausible">
+              <th scope="row" data-label="Punto de conflicto">Comisión de compra</th>
+              <td data-label="Versión reporte A">OKX Europe: 0,00 % maker / 0,05 % taker; SEPA 0 €</td>
+              <td data-label="Versión reporte B">Bit2Me, spread 0,2–0,8 %</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge ok">A verificado, con matiz</span><span class="badge warn">B plausible</span></div><p>OKX anunció para el 25 de septiembre de 2026 una tarifa de stablecoins de 0,000 % maker y 0,050 % taker, y de 0,100 % y 0,200 % para el resto de pares. Falta confirmar que EUR/USDC cuente como «stablecoin». B solo es válido en Bit2Me Pro: la Wallet cobra 0,95 %.</p></td>
+            </tr>
+            <tr data-tags="sinverificar plausible">
+              <th scope="row" data-label="Punto de conflicto">Coste de retirada en red</th>
+              <td data-label="Versión reporte A">≈ 0,21 USDC (Solana)</td>
+              <td data-label="Versión reporte B">0,5–1 USDT (TRC-20)</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge mute">Ninguno corroborado</span></div><p>Un agregador indica que OKX retira gratis en Solana y Polygon en promociones y, si no, cobra entre 1 y 5 USD (fuente secundaria).</p></td>
+            </tr>
+            <tr data-tags="contradicho">
+              <th scope="row" data-label="Punto de conflicto">Ruta ganadora a 100 €</th>
+              <td data-label="Versión reporte A">Cripto (+2,7 %) si el P2P real ≥ ~930 Bs/USDC</td>
+              <td data-label="Versión reporte B">Fintech española (RemittVen)</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge warn">Indeciso</span></div><p>Con spread P2P realista y retirada de 1 USDC, la ventaja de A baja a ≈ 0,2–1,0 %. Con retirada de 5 USD, cripto pierde 2,6–3,4 %. B da 2–4 € a ambas rutas, así que su veredicto no se sostiene.</p></td>
+            </tr>
+            <tr data-tags="plausible">
+              <th scope="row" data-label="Punto de conflicto">Ruta ganadora a 500 €</th>
+              <td data-label="Versión reporte A">Cripto (+2,9 %, ≈ 15.000 VES)</td>
+              <td data-label="Versión reporte B">Cripto</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge info">Dirección coincidente</span><span class="badge bad">Magnitud inflada</span></div><p>La magnitud de A está inflada: corregida es ≈ +0,9 a +1,8 % (≈ 4,6–9,2 €).</p></td>
+            </tr>
+            <tr data-tags="verificado sinverificar">
+              <th scope="row" data-label="Punto de conflicto">Tipos de referencia</th>
+              <td data-label="Versión reporte A">EUR/USD 1,1298 (BCE); USDT 955,35</td>
+              <td data-label="Versión reporte B">No da ninguno</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge ok">USDT verificado</span><span class="badge mute">EUR/USD sin verificar</span></div><p>El USDT está en rango: 954 Bs el 1 de octubre y 964,75 en Binance P2P el 28 de septiembre. El BCE dio 0,8726 EUR por USD el 18 de septiembre (≈ 1,146); el cruce de las tasas del BCV (28 de septiembre) da 1,1399. Un 1,1298 es plausible pero no confirmado.</p></td>
+            </tr>
+            <tr data-tags="verificado">
+              <th scope="row" data-label="Punto de conflicto">Tipo y comisión de Remitly</th>
+              <td data-label="Versión reporte A">1.048,41 VES/€; comisión posterior «1,99 € en otros corredores»</td>
+              <td data-label="Versión reporte B">«Spread 1–3 %»; comisión 0–5 €</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge ok">Sin contradicción real en el tipo</span></div><p>La web mostraba 1.056,62 en la consulta de verificación, 0,8 % más, y el tipo varía durante el día. El 1,99 € de A no aplica a España (0,99 €). El «1–3 %» de B solo cuadra con el tipo promocional (≈ 3 % bajo el paralelo).</p></td>
+            </tr>
+            <tr data-tags="verificado">
+              <th scope="row" data-label="Punto de conflicto">Retorna</th>
+              <td data-label="Versión reporte A">DNI español o pasaporte venezolano; 3–1.800 €/día; 10 min / 1 h / 2–3 h</td>
+              <td data-label="Versión reporte B">No lo menciona</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge ok">A verificado en todo</span><span class="badge warn">Atención: NIE</span></div><p>El límite diario es 1.800 € y en España acepta DNI o pasaporte venezolano vigente. La web no lista el NIE, así que no está disponible si el remitente solo tiene NIE y no tiene pasaporte vigente.</p></td>
+            </tr>
+            <tr data-tags="verificado sinverificar">
+              <th scope="row" data-label="Punto de conflicto">RemittVen y comisiones</th>
+              <td data-label="Versión reporte A">No lo menciona</td>
+              <td data-label="Versión reporte B">Licencia 6917; comisión 1 € banco / 2 € Pago Móvil</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge ok">Licencia verificada</span><span class="badge mute">Comisiones sin verificar</span></div><p>Figura como entidad de pago registrada en el Banco de España con el n.º 6917. Su calculadora mostraba 0,90 € para Pago Móvil, sin tipo visible, y un aviso de comisiones eliminadas. Otras fintech cobran 2 € fijos (KBPPAY, Tepuy Express).</p></td>
+            </tr>
+            <tr data-tags="plausible">
+              <th scope="row" data-label="Punto de conflicto">KYC del receptor en OKX</th>
+              <td data-label="Versión reporte A">No asume que la cédula sirva</td>
+              <td data-label="Versión reporte B">Asume cédula + selfie</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge ok">A es más riguroso</span><span class="badge warn">Plausible</span></div><p>Sin respuesta en las fuentes. Una prueba de terceros de mayo de 2026 indica que se registró con documento de identidad nacional en Caracas.</p></td>
+            </tr>
+            <tr data-tags="verificado contradicho">
+              <th scope="row" data-label="Punto de conflicto">Coherencia interna</th>
+              <td data-label="Versión reporte A">Cálculos exactos</td>
+              <td data-label="Versión reporte B">Rangos inconsistentes</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge ok">A verificado</span><span class="badge bad">B inconsistente</span></div><p>Se reprodujeron 107.681 / 539.207 / 104.841 / 524.205 y los umbrales 930 y 1.076,8 / 1.078,4. En B, 1,5–3,5 % sobre 500 € son 7,5–17,5 €, pero declara 5–12; 2–5 % son 10–25 €, pero declara 10–20. Ria aparece en las rutas 1 y 3, que no son independientes.</p></td>
+            </tr>
+            <tr data-tags="sinverificar">
+              <th scope="row" data-label="Punto de conflicto">Extras de B</th>
+              <td data-label="Versión reporte A">—</td>
+              <td data-label="Versión reporte B">Fondeo con Bizum; Coco Wallet</td>
+              <td data-label="Evaluación objetiva"><div class="badges"><span class="badge mute">Sin verificar</span></div><p>Bizum permite de 0,50 a 1.000 € entre particulares, y no se encontró que sirva para fondear exchanges. Coco Wallet existe como billetera USDT/USDC para remesas a Venezuela, pero no se verificó el fondeo desde España ni sus comisiones.</p></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="empty" id="empty" hidden>Ningún punto coincide con el filtro. Prueba con otro veredicto o borra la búsqueda.</div>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+    </section>
+
+    <!-- Rigor -->
+    <section id="rigor" aria-labelledby="h-rigor">
+      <div class="sec-head">
+        <h2 id="h-rigor">Rigor metodológico</h2>
+        <p>Qué tan bien sustenta cada reporte lo que afirma.</p>
+      </div>
+      <div class="grid g2">
+        <article class="card">
+          <h3>Reporte A</h3>
+          <h4>Puntos fuertes</h4>
+          <ul class="pros">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Fecha de corte explícita y fórmulas reproducibles.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Umbrales de equilibrio y advertencias claras.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Reconoce que no puede fijar el precio de Retorna.</li>
+          </ul>
+          <h4>Debilidades</h4>
+          <ul class="cons">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Usa el precio de referencia P2P como precio de ejecución.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>No modela el spread P2P ni la comisión bancaria local.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Presenta estimaciones puntuales sin rango y no compara contra Remitly sin promo.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Reporte B</h3>
+          <h4>Debilidades</h4>
+          <ul class="cons">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Porcentajes sin tipo de referencia y ninguna cotización en vivo.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Un flujo inviable: USDT en la UE.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Números internos que no cuadran.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Adjetivos como «objetivamente la más rentable» sin evidencia.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Datación imprecisa: «datos de finales de 2025/2026», sin fecha concreta.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Calidad -->
+    <section id="calidad" aria-labelledby="h-cal">
+      <div class="sec-head">
+        <h2 id="h-cal">Control de calidad</h2>
+        <p>Lo que no se corrobora entre las fuentes.</p>
+      </div>
+      <div class="grid g3">
+        <article class="card info">
+          <h3>Solo en el reporte A</h3>
+          <p>Tarifa OKX 0,05 %, USDT 955,35, EUR/USD 1,1298, retirada 0,21 USDC, Remitly 1.048,41 y detalles de Retorna.</p>
+          <p class="muted" style="margin:0">La tarifa de OKX, el USDT y Retorna están verificados. Las otras tres cifras (EUR/USD, retirada y tipo de Remitly) no, o solo en parte.</p>
+        </article>
+        <article class="card info">
+          <h3>Solo en el reporte B</h3>
+          <p>Spreads de Bit2Me, gas TRC-20, comisiones de RemittVen, Coco Wallet, Bizum y límite de 250 € en Pago Móvil.</p>
+          <p class="muted" style="margin:0">Solo la licencia de RemittVen está verificada.</p>
+        </article>
+        <article class="card warn">
+          <h3>Riesgo que ninguno menciona</h3>
+          <p>OKX suspendió temporalmente depósitos y retiros de USDC en Solana por mantenimiento.</p>
+          <p class="muted" style="margin:0">Conviene tener una red alternativa, como Base o Polygon.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Síntesis -->
+    <section id="sintesis" aria-labelledby="h-sin">
+      <div class="sec-head">
+        <h2 id="h-sin">Síntesis final consolidada</h2>
+        <p>La versión más precisa de los hechos tras la auditoría.</p>
+      </div>
+      <div class="defs">
+        <article class="card"><h3>Mercado a 1 de octubre de 2026</h3><p>El dólar oficial ronda 857–860 Bs y el P2P 949–965 Bs (brecha ≈ 11–13 %). Con un EUR/USD de 1,13–1,14, el valor de mercado es ≈ 1.079–1.090 Bs por euro.</p></article>
+        <article class="card"><h3>Tramo europeo</h3><p>Solo USDC: el USDT no se puede comprar en exchanges de la UE. SEPA es gratis en OKX Europe, Bitvavo y Kraken. La compra cuesta ≈ 0,05 % (OKX, stablecoins), 0,25 % (Bitvavo) o 0,25–0,40 % (Kraken).</p></article>
+        <article class="card"><h3>Coste de red</h3><p>La red es casi gratis; lo que cuenta es la tarifa fija de retirada del exchange. Va de 0,21 USDC (según A, sin confirmar) a 1–5 USD (según un agregador). Confírmala en la pantalla de retiro antes de decidir.</p></article>
+        <article class="card"><h3>Tramo venezolano</h3><p>El P2P cobra 0 % de plataforma. El coste real es el spread frente al precio de referencia y la comisión bancaria local. Los supuestos usados (no verificados) suman un 1–1,75 %.</p></article>
+      </div>
+
+      <div class="grid g3 split">
+        <article class="card warn">
+          <h3>A 100 €</h3>
+          <p><span class="badge warn">Sin ganador claro</span></p>
+          <p>Si eres cliente nuevo de Remitly, usa la promo. Si no, solo merece la pena cripto con retirada baja y un P2P realizado ≥ ~930 Bs/USDC.</p>
+        </article>
+        <article class="card ok">
+          <h3>A 500 €</h3>
+          <p><span class="badge ok">Ventaja cripto moderada</span></p>
+          <p>La ruta USDC con P2P es algo mejor frente a la promo y claramente mejor frente a un envío sin promo, pero con más riesgo operativo.</p>
+        </article>
+        <article class="card info">
+          <h3>Fintech españolas y Retorna</h3>
+          <p><span class="badge mute">Tipo EUR/VES no visible</span></p>
+          <p>RemittVen, Tepuy, KBPPAY y Retorna existen y están reguladas. Solo ganan si la pantalla final supera ≈ 1.050 Bs/€ netos frente a la promo, o ≈ 1.077–1.078 para igualar a cripto sin corregir.</p>
+        </article>
+      </div>
+
+      <div class="callout" role="note">
+        <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        <div><strong>Antes de operar.</strong> Compara en el mismo minuto la métrica «VES netos por euro pagado» en las tres pantallas. Si el remitente tiene solo NIE y ningún pasaporte vigente, descarta Retorna.</div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Fecha de corte: 1 de octubre de 2026.</strong> Las tasas P2P y las de las remesadoras cambian durante el día: confirma la cifra final en pantalla antes de operar.</p>
+    <p>El spread P2P (1–1,75 %), la comisión bancaria local y la tasa de Remitly sin promo son estimaciones, no datos publicados. Este informe es informativo y no constituye asesoramiento financiero ni legal.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  /* ---------- Formatting (es: 1.048,41) ---------- */
+  var nf0 = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 0 });
+  var nf2 = new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function pct(n, d) {
+    d = d === undefined ? 2 : d;
+    var s = n > 0 ? '+' : (n < 0 ? '\u2212' : '');
+    return s + Math.abs(n).toFixed(d).replace('.', ',') + ' %';
+  }
+  function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+
+  /* ---------- Data (all derived from reporte A inputs) ---------- */
+  var MARKET = 1079.35, BCV_EUR = 976.90;
+  var SENS_X = ['0 % (reporte A)', '1 %', '1,5 %', '1,75 %', '2,5 %'];
+  var SENS_LABELS = ['Retirada 0,21 USDC (según A)', 'Retirada 1 USDC', 'Retirada 5 USDC'];
+  var SENS_COLORS = ['#1d4ed8', '#15803d', '#b91c1c'];
+  var DATA = {
+    100: {
+      A: 1076.81, corr: [1050.55, 1066.04], promo: 1048.41, sin: 981.09,
+      sens: [
+        [2.71, 1.68, 1.17, 0.91, 0.14],
+        [1.99, 0.97, 0.46, 0.20, -0.56],
+        [-1.66, -2.64, -3.13, -3.38, -4.11]
+      ],
+      insight: 'A 100 €, la retirada fija pesa mucho: con 5 USDC la ruta cripto queda por debajo de la promo de Remitly en todos los escenarios.'
+    },
+    500: {
+      A: 1078.41, corr: [1058.06, 1067.63], promo: 1048.41, sin: 988.94,
+      sens: [
+        [2.86, 1.83, 1.32, 1.06, 0.29],
+        [2.72, 1.69, 1.18, 0.92, 0.15],
+        [1.99, 0.97, 0.46, 0.20, -0.56]
+      ],
+      insight: 'A 500 €, la ruta cripto gana a la promo en casi todos los escenarios: solo pierde (\u22120,56 %) con retirada de 5 USDC y un spread de 2,5 %.'
+    }
+  };
+
+  var currentAmt = '100';
+  var charts = [];
+
+  /* ---------- Print ---------- */
+  var printBtn = $('#btn-print');
+  if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+
+  /* ---------- Table filter ---------- */
+  var rows = $$('#dtable tbody tr');
+  rows.forEach(function (r) { r._text = norm(r.textContent); });
+  var state = { tag: 'todos', q: '' };
+
+  function applyFilter() {
+    var n = 0;
+    rows.forEach(function (r) {
+      var okTag = state.tag === 'todos' || r.getAttribute('data-tags').split(' ').indexOf(state.tag) !== -1;
+      var okQ = !state.q || r._text.indexOf(state.q) !== -1;
+      var show = okTag && okQ;
+      r.hidden = !show;
+      if (show) { r.classList.toggle('alt', n % 2 === 1); n++; } else { r.classList.remove('alt'); }
+    });
+    var cnt = $('#count');
+    if (cnt) cnt.textContent = 'Mostrando ' + n + ' de ' + rows.length + ' puntos';
+    var empty = $('#empty');
+    if (empty) empty.hidden = n !== 0;
+  }
+  $$('.chips button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.tag = b.getAttribute('data-tag');
+      $$('.chips button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      applyFilter();
+    });
+  });
+  var q = $('#q');
+  if (q) q.addEventListener('input', function () { state.q = norm(q.value.trim()); applyFilter(); });
+  applyFilter();
+
+  var savedState = null;
+  window.addEventListener('beforeprint', function () {
+    savedState = { tag: state.tag, q: state.q };
+    state.tag = 'todos'; state.q = '';
+    applyFilter();
+    charts.forEach(function (c) { c.resize(); });
+  });
+  window.addEventListener('afterprint', function () {
+    if (savedState) { state = savedState; savedState = null; applyFilter(); }
+  });
+
+  /* ---------- Amount toggle (charts + results table) ---------- */
+  function highlightResultRow() {
+    $$('.results tbody tr').forEach(function (r) {
+      r.classList.toggle('is-active', r.getAttribute('data-amt') === currentAmt);
+    });
+  }
+  function setAmount(a) {
+    currentAmt = a;
+    $$('.seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-amt') === a)); });
+    highlightResultRow();
+    var ins = $('#insight');
+    if (ins) ins.textContent = DATA[a].insight;
+    updateCharts();
+  }
+  $$('.seg button').forEach(function (b) {
+    b.addEventListener('click', function () { setAmount(b.getAttribute('data-amt')); });
+  });
+
+  /* ---------- Charts ---------- */
+  var chVes = null, chSens = null;
+
+  function vesValues(d) { return [MARKET, d.A, d.corr, d.promo, d.sin, BCV_EUR]; }
+
+  function updateCharts() {
+    var d = DATA[currentAmt];
+    if (chVes) { chVes.data.datasets[0].data = vesValues(d); chVes.update(); }
+    if (chSens) {
+      chSens.data.datasets.forEach(function (ds, i) { ds.data = d.sens[i]; });
+      chSens.update();
+    }
+  }
+
+  function showFallback(id) {
+    var c = document.getElementById(id);
+    if (!c || !c.parentNode) return;
+    c.parentNode.innerHTML = '<div class="fallback">No se pudo cargar Chart.js (se necesita conexión a internet). Los mismos datos están en la tabla de resultados.</div>';
+  }
+
+  function initCharts() {
+    if (typeof window.Chart === 'undefined') { showFallback('chart-ves'); showFallback('chart-sens'); return; }
+    var font = getComputedStyle(document.body).fontFamily;
+    Chart.defaults.font.family = font;
+    Chart.defaults.font.size = 12;
+    Chart.defaults.color = '#475569';
+
+    var valueLabels = {
+      id: 'valueLabels',
+      afterDatasetsDraw: function (chart) {
+        var ctx = chart.ctx, meta = chart.getDatasetMeta(0), ds = chart.data.datasets[0].data;
+        ctx.save();
+        ctx.font = '600 12px ' + font;
+        ctx.fillStyle = '#0f172a';
+        ctx.textBaseline = 'middle';
+        meta.data.forEach(function (bar, i) {
+          var v = ds[i];
+          var txt = Array.isArray(v) ? nf0.format(v[0]) + '\u2013' + nf0.format(v[1]) : nf2.format(v);
+          ctx.fillText(txt, Math.max(bar.x, bar.base) + 6, bar.y);
+        });
+        ctx.restore();
+      }
+    };
+
+    var d = DATA[currentAmt];
+    var vesEl = document.getElementById('chart-ves');
+    var sensEl = document.getElementById('chart-sens');
+
+    chVes = new Chart(vesEl, {
+      type: 'bar',
+      data: {
+        labels: [
+          ['Referencia de mercado', '(reporte A)'],
+          ['Cripto según A', '(sin spread P2P)'],
+          ['Cripto corregida', '(rango)'],
+          ['Remitly con promo', '(1.ª vez)'],
+          ['Remitly sin promo', '(estimado)'],
+          ['Tipo oficial BCV', 'del euro']
+        ],
+        datasets: [{
+          data: vesValues(d),
+          backgroundColor: ['#94a3b8', '#93c5fd', '#1d4ed8', '#15803d', '#b45309', '#cbd5e1'],
+          borderRadius: 4,
+          borderSkipped: false,
+          barPercentage: 0.72
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { right: 78 } },
+        scales: {
+          x: {
+            min: 900, max: 1100,
+            title: { display: true, text: 'Bs por euro pagado (el eje empieza en 900)' },
+            ticks: { callback: function (v) { return nf0.format(v); } },
+            grid: { color: '#e2e8f0' }
+          },
+          y: { grid: { display: false } }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function (ctx) {
+                var v = ctx.raw;
+                return Array.isArray(v) ? nf2.format(v[0]) + ' a ' + nf2.format(v[1]) + ' Bs/\u20AC' : nf2.format(v) + ' Bs/\u20AC';
+              }
+            }
+          }
+        }
+      },
+      plugins: [valueLabels]
+    });
+
+    chSens = new Chart(sensEl, {
+      type: 'line',
+      data: {
+        labels: SENS_X,
+        datasets: SENS_LABELS.map(function (lbl, i) {
+          return {
+            label: lbl,
+            data: d.sens[i],
+            borderColor: SENS_COLORS[i],
+            backgroundColor: SENS_COLORS[i],
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.25
+          };
+        })
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          x: { title: { display: true, text: 'Spread P2P + comisión bancaria (% del importe)' }, grid: { display: false } },
+          y: {
+            title: { display: true, text: 'Ventaja cripto frente a Remitly promo' },
+            ticks: { callback: function (v) { return String(v).replace('.', ',') + ' %'; } },
+            grid: {
+              color: function (c) { return c.tick && c.tick.value === 0 ? '#0f172a' : '#e2e8f0'; },
+              lineWidth: function (c) { return c.tick && c.tick.value === 0 ? 2 : 1; }
+            }
+          }
+        },
+        plugins: {
+          legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } },
+          tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ': ' + pct(ctx.parsed.y); } } }
+        }
+      }
+    });
+
+    charts = [chVes, chSens];
+  }
+  window.addEventListener('load', initCharts);
+  setAmount('100');
+
+  /* ---------- Calculator ---------- */
+  var DEF = { amt: 500, fx: 1.1298, p2p: 955.35, buy: 0.05, wd: 1, spr: 1.75, rem: 1048.41, remfee: 0 };
+  var ids = Object.keys(DEF);
+
+  function read(k) { return parseFloat(document.getElementById('c-' + k).value); }
+  function setText(id, t) { document.getElementById(id).textContent = t; }
+  function verdict(cls, html) {
+    var v = document.getElementById('calc-verdict');
+    v.className = 'verdict ' + cls;
+    v.textContent = html;
+  }
+
+  function calc() {
+    var v = {};
+    ids.forEach(function (k) { v[k] = read(k); });
+    var valid = ids.every(function (k) { return isFinite(v[k]) && v[k] >= 0; }) &&
+      v.amt > 0 && v.fx > 0 && v.p2p > 0 && v.rem > 0 && v.buy < 100 && v.spr < 100 && v.remfee < v.amt;
+    var usdc = valid ? v.amt * v.fx * (1 - v.buy / 100) - v.wd : NaN;
+    if (!valid || !(usdc > 0)) {
+      verdict('invalid', !valid ? 'Revisa los datos: todos los campos deben ser números válidos y mayores o iguales que cero.' : 'La tarifa de retirada supera el importe disponible. Baja la retirada o sube el importe.');
+      ['o-ves-c', 'o-per-c', 'o-ves-r', 'o-per-r', 'o-usdc', 'o-diff', 'o-eur', 'o-be'].forEach(function (id) { setText(id, '-'); });
+      return;
+    }
+    var vesC = usdc * v.p2p * (1 - v.spr / 100);
+    var vesR = (v.amt - v.remfee) * v.rem;
+    var diff = vesC - vesR;
+    var diffPct = (vesC / vesR - 1) * 100;
+    var diffEur = diff / (v.p2p * v.fx);
+    var be = vesR / (usdc * (1 - v.spr / 100));
+
+    setText('o-ves-c', nf0.format(vesC) + ' Bs');
+    setText('o-per-c', nf2.format(vesC / v.amt) + ' Bs por \u20AC pagado');
+    setText('o-ves-r', nf0.format(vesR) + ' Bs');
+    setText('o-per-r', nf2.format(vesR / v.amt) + ' Bs por \u20AC pagado');
+    setText('o-usdc', nf2.format(usdc) + ' USDC');
+    setText('o-diff', (diff >= 0 ? '+' : '\u2212') + nf0.format(Math.abs(diff)) + ' Bs (' + pct(diffPct) + ')');
+    setText('o-eur', (diffEur >= 0 ? '+' : '\u2212') + nf2.format(Math.abs(diffEur)) + ' \u20AC');
+    setText('o-be', nf2.format(be) + ' Bs/USDC');
+
+    if (diffPct > 0.05) verdict('ok', 'Con estos datos, la ruta cripto entrega ' + nf0.format(diff) + ' Bs más (' + pct(diffPct) + ').');
+    else if (diffPct < -0.05) verdict('bad', 'Con estos datos, Remitly entrega ' + nf0.format(-diff) + ' Bs más (' + pct(-diffPct) + ').');
+    else verdict('neutral', 'Empate práctico: la diferencia es menor que 0,05 %.');
+  }
+
+  ids.forEach(function (k) { document.getElementById('c-' + k).addEventListener('input', calc); });
+  var reset = document.getElementById('calc-reset');
+  if (reset) reset.addEventListener('click', function () {
+    ids.forEach(function (k) { document.getElementById('c-' + k).value = DEF[k]; });
+    calc();
+  });
+  calc();
+
+  /* ---------- Active section in nav ---------- */
+  var links = $$('.toc a');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.removeAttribute('aria-current'); });
+          var a = $('.toc a[href="#' + e.target.id + '"]');
+          if (a) a.setAttribute('aria-current', 'true');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    $$('main section').forEach(function (s) { io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
